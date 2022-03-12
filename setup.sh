@@ -1,3 +1,9 @@
+# Copy dotfiles
+cp .vimrc ~/.vimrc
+mkdir ~/.vim/colors/
+cp predawn.vim ~/.vim/colors/predawn.vim
+cp .tmux.conf ~/.tmux.conf
+
 # Install Pathogen
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
@@ -9,5 +15,3 @@ git clone https://github.com/preservim/nerdtree ~/.vim/bundle/nerdtree
 git clone https://github.com/vim-airline/vim-airline ~/.vim/bundle/vim-airline
 git clone https://github.com/vim-airline/vim-airline-themes ~/.vim/bundle/vim-airline-themes
 
-cp .vimrc ~/.vimrc
-cp .tmux.conf ~/.tmux.conf
