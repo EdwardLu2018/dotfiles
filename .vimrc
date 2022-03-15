@@ -21,7 +21,6 @@ set smartindent
 set showmatch  "Highlight matching braces
 
 set ruler  "Show bottom ruler
-set number
 
 set confirm
 
@@ -36,7 +35,7 @@ set smartcase  "Search using smartcase
 set incsearch  "Start searching immediately
 
 set mouse=a
-"set number relativenumber
+set number
 set whichwrap+=<,>,h,l,[,]
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
