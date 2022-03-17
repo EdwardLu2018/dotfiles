@@ -80,12 +80,6 @@ nmap <leader>e :call NERDComment("n", "Toggle")<CR>
 
 set fillchars=vert:│
 
-" Copy-pasting from system keyboard
-noremap y "*y
-noremap p "*p
-noremap Y "+y
-noremap P "+p
-
 " Useful functions
 func! s:strfind(s,find,start)
         if type(a:find)==1
