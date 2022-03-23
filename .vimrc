@@ -18,16 +18,6 @@ set expandtab  " Expand tabs into spaces
 set autoindent  "autoindent on new lines
 set smartindent
 
-set showmatch  "Highlight matching braces
-
-set ruler  "Show bottom ruler
-
-set confirm
-
-set equalalways  "Split windows equal size
-
-set formatoptions=croq  "Enable comment line auto formatting
-
 set title  "Set window title to file
 set hlsearch  "Highlight on search
 set ignorecase  "Search ignoring case
@@ -36,7 +26,13 @@ set incsearch  "Start searching immediately
 
 set mouse=a
 set number
+set ic
+set confirm
 set whichwrap+=<,>,h,l,[,]
+set showmatch  "Highlight matching braces
+set equalalways  "Split windows equal size
+set ruler  "Show bottom ruler
+set formatoptions=croq  "Enable comment line auto formatting
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
 set clipboard=unnamed  "Copy and paste from system clipboard
@@ -48,16 +44,16 @@ set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
 set nostartofline "Vertical movement preserves horizontal position
 
-set spelllang=en_us
-set spell
+" set spelllang=en_us
+" set spell
 
 " Strip whitespace from end of lines when writing file
 autocmd BufWritePre * :%s/\s\+$//e
 
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 
-hi Comment ctermfg=DarkGray
-hi LineNr ctermfg=Gray
+hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
+hi SpellBad ctermbg=red guibg=red ctermfg=black guifg=black
 
 let g:airline_theme="luna"
 let g:airline#extensions#tabline#enabled = 1
@@ -66,12 +62,6 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#buffer_min_count = 2
-
-let g:vim_json_syntax_conceal = 0
-let g:vim_markdown_conceal = 0
-let g:indentLine_conceallevel = 0
-let g:indentLine_setConceal = 2
-let g:indentLine_concealcursor = ""
 
 let NERDTreeShowHidden=1
 map <C-B> :NERDTreeToggle<CR>
