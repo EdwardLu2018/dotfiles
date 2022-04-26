@@ -16,5 +16,5 @@ git clone https://github.com/ackyshake/VimCompletesMe ~/.vim/bundle/VimCompletes
 git clone --depth 1 https://github.com/sheerun/vim-polyglot ~/.vim/bundle/vim-polyglot
 
 # Copy theme
-[ ! -d "~/.vim/colors/" ] mkdir ~/.vim/colors/
+mkdir ~/.vim/colors/
 cp predawn.vim ~/.vim/colors/predawn.vim
