@@ -2,6 +2,8 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
+set rtp+=~/.vim/bundle/fzf
+
 set t_Co=256 "256 color
 set bg=light
 
@@ -65,8 +67,8 @@ let g:airline#extensions#tabline#buffer_min_count = 2
 
 let NERDTreeShowHidden=1
 map <C-B> :NERDTreeToggle<CR>
-
-nmap <leader>e :call NERDComment("n", "Toggle")<CR>
+nmap <silent> <C-f> :Rg<CR>
+nmap <silent> <leader>f :Files<CR>
 
 nnoremap <Leader>1 :buffer 1<CR>
 nnoremap <Leader>2 :buffer 2<CR>
