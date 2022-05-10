@@ -9,6 +9,13 @@ set bg=light
 
 colorscheme predawn
 
+" Key remappings
+let mapleader = ';'
+command W w
+command Wq wq
+command WQ wq
+command Q q
+
 set nocompatible  "Kill vi-compatibility
 set encoding=utf-8 "UTF-8 character encoding
 
@@ -79,6 +86,10 @@ nnoremap <Leader>6 :buffer 6<CR>
 nnoremap <Leader>7 :buffer 7<CR>
 nnoremap <Leader>8 :buffer 8<CR>
 nnoremap <Leader>9 :buffer 9<CR>
+nnoremap <Leader>w :bfirst<CR>
+nnoremap <Leader>s :blast<CR>
+nnoremap <Leader>a :bprev<CR>
+nnoremap <Leader>d :bnext<CR>
 
 set fillchars=vert:│
 
