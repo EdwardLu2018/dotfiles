@@ -73,7 +73,9 @@ let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#buffer_min_count = 2
 
 let NERDTreeShowHidden=1
+let g:NERDTreeWinPos = "left"
 map <C-B> :NERDTreeToggle<CR>
+
 nmap <silent> <C-f> :Rg<CR>
 nmap <silent> <leader>f :Files<CR>
 
