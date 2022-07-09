@@ -52,6 +52,9 @@ set backspace=indent,eol,start  "Better backspacing
 set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
 set nostartofline "Vertical movement preserves horizontal position
+set updatetime=100
+set signcolumn=yes
+hi clear SignColumn
 
 " set spelllang=en_us
 " set spell
