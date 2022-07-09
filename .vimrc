@@ -53,8 +53,6 @@ set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
 set nostartofline "Vertical movement preserves horizontal position
 set updatetime=100
-set signcolumn=yes
-hi clear SignColumn
 
 " set spelllang=en_us
 " set spell
@@ -66,6 +64,10 @@ autocmd BufNewFile,BufRead *.md set filetype=markdown
 
 hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
 hi SpellBad ctermbg=red guibg=red ctermfg=black guifg=black
+hi clear SignColumn
+hi GitGutterAdd guifg=#009900 ctermfg=2
+hi GitGutterChange guifg=#bbbb00 ctermfg=3
+hi GitGutterDelete guifg=#ff2222 ctermfg=1
 
 let g:airline_theme="luna"
 let g:airline#extensions#tabline#enabled = 1
@@ -74,6 +76,8 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#buffer_min_count = 2
+
+let g:gitgutter_sign_removed = '-'
 
 let NERDTreeShowHidden=1
 let g:NERDTreeWinPos = "left"
