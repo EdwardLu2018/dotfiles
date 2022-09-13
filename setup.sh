@@ -20,6 +20,7 @@ git clone https://github.com/sheerun/vim-polyglot ~/.vim/bundle/vim-polyglot
 git clone https://github.com/junegunn/fzf ~/.vim/bundle/fzf
 git clone https://github.com/junegunn/fzf.vim ~/.vim/bundle/fzf.vim
 git clone https://github.com/airblade/vim-gitgutter ~/.vim/bundle/vim-gitgutter
+git clone https://github.com/terryma/vim-multiple-cursors ~/.vim/bundle/vim-multiple-cursors
 
 # Copy theme
 mkdir ~/.vim/colors/
