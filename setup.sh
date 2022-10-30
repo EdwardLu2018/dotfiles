@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Install oh-my-zsh
+if [ -d "~/.oh-my-zsh/" ]
+then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
 # Copy dotfiles
 cp .vimrc ~/.vimrc
 cp .tmux.conf ~/.tmux.conf
@@ -8,7 +14,11 @@ cp .tmux.conf ~/.tmux.conf
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-# Install Packages
+# Install oh-my-zsh plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+# Install vim Packages
 git clone https://github.com/Raimondi/delimitMate ~/.vim/bundle/delimitMate
 git clone https://github.com/preservim/nerdcommenter ~/.vim/bundle/nerdcommentor
 git clone https://github.com/preservim/nerdtree ~/.vim/bundle/nerdtree
@@ -24,5 +34,7 @@ git clone https://github.com/terryma/vim-multiple-cursors ~/.vim/bundle/vim-mult
 
 # Copy theme
 mkdir ~/.vim/colors/
-cp predawn.vim ~/.vim/colors/predawn.vim
-
+git clone https://github.com/juanedi/predawn.vim
+cp predawn.vim/colors/predawn.vim ~/.vim/colors/predawn.vim
+git clone https://github.com/jamiewilson/predawn-shell
+cp predawn-shell/Predawn.zsh-theme ~/.oh-my-zsh/themes
