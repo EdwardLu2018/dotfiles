@@ -1,6 +1,19 @@
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
+call plug#begin()
+
+Plug 'Raimondi/delimitMate'
+Plug 'preservim/nerdcommenter'
+Plug 'preservim/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-scripts/VimCompletesMe'
+Plug 'tmhedberg/matchit'
+Plug 'sheerun/vim-polyglot'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'mg979/vim-visual-multi'
+
+call plug#end()
 
 set rtp+=~/.vim/bundle/fzf
 
