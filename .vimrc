@@ -5,7 +5,6 @@ Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'vim-scripts/VimCompletesMe'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'tmhedberg/matchit'
 Plug 'sheerun/vim-polyglot'
@@ -110,7 +109,24 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#buffer_min_count = 2
 
+" Make remove git gutter the minus sign
 let g:gitgutter_sign_removed = '-'
+
+" Do not display documentation on hover
+let g:ycm_auto_hover = ''
+" Display documentation on <leader>
+nmap <silent> <leader>q <plug>(YCMHover)
+" Disable preview window
+set completeopt-=preview
+" Add borders to documentation popups
+let b:ycm_hover = {
+\   'command': 'GetDoc',
+\   'syntax': &filetype,
+\   'popup_params': {
+\       'border': [],
+\       'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+\   }
+\ }
 
 " Create default mappings
 let g:NERDCreateDefaultMappings = 1
@@ -133,7 +149,7 @@ let g:NERDToggleCheckAllLines = 1
 
 let NERDTreeShowHidden=1
 let g:NERDTreeWinPos = "left"
-map <C-B> :NERDTreeToggle<CR>
+nmap <silent> <C-B> :NERDTreeToggle<CR>
 
 nmap <silent> <C-f> :Rg<CR>
 nmap <silent> <leader>f :Files<CR>
