@@ -25,3 +25,6 @@ cp predawn.vim/colors/predawn.vim ~/.vim/colors/predawn.vim
 git clone https://github.com/jamiewilson/predawn-shell
 cp predawn-shell/Predawn.zsh-theme ~/.oh-my-zsh/themes
 rm -rf predawn*
+
+# cd ~/.vim/plugged/YouCompleteMe
+# python3 install.py --all

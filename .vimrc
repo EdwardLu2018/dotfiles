@@ -5,7 +5,8 @@ Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vim-scripts/VimCompletesMe'
+" Plug 'vim-scripts/VimCompletesMe'
+Plug 'ycm-core/YouCompleteMe'
 Plug 'tmhedberg/matchit'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf'
@@ -28,6 +29,27 @@ command W w
 command Wq wq
 command WQ wq
 command Q q
+
+" Use line cursor when in insert mode and block cursor everywhere else
+let &t_SI="\e[6 q"
+let &t_EI="\e[2 q"
+
+" Swapping between buffers
+nnoremap <Leader>1 :buffer 1<CR>
+nnoremap <Leader>2 :buffer 2<CR>
+nnoremap <Leader>3 :buffer 3<CR>
+nnoremap <Leader>4 :buffer 4<CR>
+nnoremap <Leader>5 :buffer 5<CR>
+nnoremap <Leader>6 :buffer 6<CR>
+nnoremap <Leader>7 :buffer 7<CR>
+nnoremap <Leader>8 :buffer 8<CR>
+nnoremap <Leader>9 :buffer 9<CR>
+nnoremap <Leader>w :bfirst<CR>
+nnoremap <Leader>s :blast<CR>
+nnoremap <Leader>a :bprev<CR>
+nnoremap <Leader>d :bnext<CR>
+
+set fillchars=vert:│
 
 set nocompatible  "Kill vi-compatibility
 set encoding=utf-8 "UTF-8 character encoding
@@ -67,9 +89,6 @@ set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
 set nostartofline "Vertical movement preserves horizontal position
 set updatetime=100
-
-" set spelllang=en_us
-" set spell
 
 " Strip whitespace from end of lines when writing file
 autocmd BufWritePre * :%s/\s\+$//e
@@ -118,71 +137,3 @@ map <C-B> :NERDTreeToggle<CR>
 
 nmap <silent> <C-f> :Rg<CR>
 nmap <silent> <leader>f :Files<CR>
-
-nnoremap <Leader>1 :buffer 1<CR>
-nnoremap <Leader>2 :buffer 2<CR>
-nnoremap <Leader>3 :buffer 3<CR>
-nnoremap <Leader>4 :buffer 4<CR>
-nnoremap <Leader>5 :buffer 5<CR>
-nnoremap <Leader>6 :buffer 6<CR>
-nnoremap <Leader>7 :buffer 7<CR>
-nnoremap <Leader>8 :buffer 8<CR>
-nnoremap <Leader>9 :buffer 9<CR>
-nnoremap <Leader>w :bfirst<CR>
-nnoremap <Leader>s :blast<CR>
-nnoremap <Leader>a :bprev<CR>
-nnoremap <Leader>d :bnext<CR>
-
-set fillchars=vert:│
-
-" Useful functions
-func! s:strfind(s,find,start)
-        if type(a:find)==1
-                let l:i = a:start
-                while l:i<len(a:s)
-                        if strpart(a:s,l:i,len(a:find))==a:find
-                                return l:i
-                        endif
-                        let l:i+=1
-                endwhile
-                return -1
-        elseif type(a:find)==3
-                " a:find is a list
-                let l:i = a:start
-                while l:i<len(a:s)
-                        let l:j=0
-                        while l:j<len(a:find)
-                                if strpart(a:s,l:i,len(a:find[l:j]))==a:find[l:j]
-                                        return [l:i,l:j]
-                                endif
-                                let l:j+=1
-                        endwhile
-                        let l:i+=1
-                endwhile
-                return [-1,-1]
-        endif
-endfunc
-
-func! s:strreplace(s,find,replace)
-        if len(a:find)==0
-                return a:s
-        endif
-        if type(a:find)==1 && type(a:replace)==1
-                let l:ret = a:s
-                let l:i = s:strfind(l:ret,a:find,0)
-                while l:i!=-1
-                        let l:ret = strpart(l:ret,0,l:i).a:replace.strpart(l:ret,l:i+len(a:find))
-                        let l:i = s:strfind(l:ret,a:find,l:i+len(a:replace))
-                endwhile
-                return l:ret
-        elseif  type(a:find)==3 && type(a:replace)==3 && len(a:find)==len(a:replace)
-                let l:ret = a:s
-                let [l:i,l:j] = s:strfind(l:ret,a:find,0)
-                while l:i!=-1
-                        let l:ret = strpart(l:ret,0,l:i).a:replace[l:j].strpart(l:ret,l:i+len(a:find[l:j]))
-                        let [l:i,l:j] = s:strfind(l:ret,a:find,l:i+len(a:replace[l:j]))
-                endwhile
-                return l:ret
-        endif
-
-endfunc
