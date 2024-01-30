@@ -114,6 +114,10 @@ let g:gitgutter_sign_removed = '-'
 
 " Do not display documentation on hover
 let g:ycm_auto_hover = ''
+
+" Hide annoying text highlighting
+let g:ycm_show_diagnostics_ui = 0
+
 " Display documentation on <leader>
 nmap <silent> <leader>q <plug>(YCMHover)
 " Disable preview window
