@@ -13,7 +13,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'mg979/vim-visual-multi'
-Plug 'pechorin/any-jump.vim'
 Plug 'github/copilot.vim'
 call plug#end()
 
