@@ -15,13 +15,10 @@ cp .vimrc ~/.vimrc
 cp .tmux.conf ~/.tmux.conf
 
 # Install vim-plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Copy theme
 mkdir -p ~/.vim/colors/
-git clone https://github.com/juanedi/predawn.vim
-cp predawn.vim/colors/predawn.vim ~/.vim/colors/predawn.vim
 git clone https://github.com/jamiewilson/predawn-shell
 cp predawn-shell/Predawn.zsh-theme ~/.oh-my-zsh/themes
 rm -rf predawn*

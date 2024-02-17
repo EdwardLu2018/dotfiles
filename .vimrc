@@ -1,5 +1,5 @@
 call plug#begin()
-
+Plug 'juanedi/predawn.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
@@ -8,11 +8,11 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ycm-core/YouCompleteMe'
 Plug 'tmhedberg/matchit'
 Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'mg979/vim-visual-multi'
-
+Plug 'github/copilot.vim'
 call plug#end()
 
 set rtp+=~/.vim/bundle/fzf
@@ -157,3 +157,10 @@ nmap <silent> <C-B> :NERDTreeToggle<CR>
 
 nmap <silent> <C-f> :Rg<CR>
 nmap <silent> <leader>f :Files<CR>
+
+" Disable Copilot for large files
+autocmd BufReadPre *
+    \ let f=getfsize(expand("<afile>"))
+    \ | if f > 100000 || f == -2
+    \ | let b:copilot_enabled = v:false
+    \ | endif
