@@ -1,5 +1,6 @@
 call plug#begin()
 Plug 'juanedi/predawn.vim'
+Plug 'mhinz/vim-startify'
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
