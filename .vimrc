@@ -85,9 +85,9 @@ set formatoptions=croq  "Enable comment line auto formatting
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
 set clipboard=unnamed  "Copy and paste from system clipboard
+set nowrap "No line wrapping
+set sidescroll=1  "Scroll horizontally one column at a time
 set lazyredraw  "Don't redraw while running macros (faster)
-set wrap  "Visually wrap lines
-set linebreak  "Only wrap on 'good' characters for wrapping
 set backspace=indent,eol,start  "Better backspacing
 set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
