@@ -3,12 +3,13 @@
 # Install oh-my-zsh
 if [ -d "~/.oh-my-zsh/" ]
 then
+    printf "Installing oh-my-zsh...\n"
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
 
-# Install oh-my-zsh plugins
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    printf "Installing zsh-autosuggestions and zsh-syntax-highlighting...\n"
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+fi
 
 # Copy OMZ patches
 echo $ZSH_CUSTOM
@@ -20,13 +21,15 @@ cp .vimrc ~/.vimrc
 cp .tmux.conf ~/.tmux.conf
 
 # Install vim-plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
+    printf "Installing vim-plug...\n"
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
 
 # Install TMUX Plugin Manager
 if [ ! -e "$HOME/.tmux/plugins/tpm" ]; then
-  printf "WARNING: Cannot found TPM (Tmux Plugin Manager) \
- at default location: \$HOME/.tmux/plugins/tpm.\n"
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    printf "Installing TMUX Plugin Manager...\n"
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 # Install TPM plugins.
