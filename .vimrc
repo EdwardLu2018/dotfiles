@@ -90,6 +90,7 @@ set whichwrap+=<,>,h,l,[,]
 set showmatch  "Highlight matching braces
 set equalalways  "Split windows equal size
 set ruler  "Show bottom ruler
+set colorcolumn=120
 set formatoptions=croq  "Enable comment line auto formatting
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
