@@ -107,7 +107,9 @@ set updatetime=100
 " Strip whitespace from end of lines when writing file
 autocmd BufWritePre * :%s/\s\+$//e
 
+" Set filetypes
 autocmd BufNewFile,BufRead *.md set filetype=markdown
+autocmd BufNewFile,BufReadPost *.vs,*.fs,*.gs,*.vsh,*.fsh,*.gsh,*.vshader,*.fshader,*.gshader,*.vert,*.frag,*.geom,*.tesc,*.tese,*.comp,*.glsl set filetype=glsl
 
 hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
 hi SpellBad ctermbg=red guibg=red ctermfg=black guifg=black
