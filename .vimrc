@@ -7,6 +7,7 @@ Plug 'preservim/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ycm-core/YouCompleteMe'
+Plug 'jiangmiao/auto-pairs'
 Plug 'tmhedberg/matchit'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -44,19 +45,20 @@ let &t_SI="\e[6 q"
 let &t_EI="\e[2 q"
 
 " Swapping between buffers
-nnoremap <Leader>1 :buffer 1<CR>
-nnoremap <Leader>2 :buffer 2<CR>
-nnoremap <Leader>3 :buffer 3<CR>
-nnoremap <Leader>4 :buffer 4<CR>
-nnoremap <Leader>5 :buffer 5<CR>
-nnoremap <Leader>6 :buffer 6<CR>
-nnoremap <Leader>7 :buffer 7<CR>
-nnoremap <Leader>8 :buffer 8<CR>
-nnoremap <Leader>9 :buffer 9<CR>
+nmap <Leader>1 <Plug>AirlineSelectTab1
+nmap <Leader>2 <Plug>AirlineSelectTab2
+nmap <Leader>3 <Plug>AirlineSelectTab3
+nmap <Leader>4 <Plug>AirlineSelectTab4
+nmap <Leader>5 <Plug>AirlineSelectTab5
+nmap <Leader>6 <Plug>AirlineSelectTab6
+nmap <Leader>7 <Plug>AirlineSelectTab7
+nmap <Leader>8 <Plug>AirlineSelectTab8
+nmap <Leader>9 <Plug>AirlineSelectTab9
 nnoremap <Leader>w :bfirst<CR>
 nnoremap <Leader>s :blast<CR>
 nnoremap <Leader>a :bprev<CR>
 nnoremap <Leader>d :bnext<CR>
+nnoremap <Leader>x :bprev<CR>:bdelete #<CR>
 
 " Make j move cursor up and k move cursor down
 nnoremap j gk
@@ -88,6 +90,8 @@ set confirm
 set hidden
 set whichwrap+=<,>,h,l,[,]
 set showmatch  "Highlight matching braces
+set history=1000  "Store more history
+set nobackup  "No backup files
 set equalalways  "Split windows equal size
 set ruler  "Show bottom ruler
 set colorcolumn=120
@@ -95,13 +99,14 @@ set formatoptions=croq  "Enable comment line auto formatting
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
 set clipboard=unnamed  "Copy and paste from system clipboard
-set nowrap "No line wrapping
+set nowrap  "No line wrapping
 set sidescroll=1  "Scroll horizontally one column at a time
 set lazyredraw  "Don't redraw while running macros (faster)
 set backspace=indent,eol,start  "Better backspacing
 set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
 set nostartofline "Vertical movement preserves horizontal position
+set autoread  "Auto read file changes
 set updatetime=100
 
 " Strip whitespace from end of lines when writing file
@@ -119,21 +124,30 @@ hi GitGutterChange guifg=#bbbb00 ctermfg=3
 hi GitGutterDelete guifg=#ff2222 ctermfg=1
 
 let g:airline_theme="luna"
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-
 let g:airline_powerline_fonts = 0
-let g:airline#extensions#tabline#buffer_min_count = 2
+" let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#formatter = 'short_path' " show directory/filename
+let g:airline#extensions#tabline#enabled = 1  " show buffer list
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 " Make remove git gutter the minus sign
 let g:gitgutter_sign_removed = '-'
 
-" Do not display documentation on hover
-let g:ycm_auto_hover = ''
+let g:ycm_auto_hover = ''  " Do not display documentation on hover
+let g:ycm_show_diagnostics_ui = 0  " Hide annoying text highlighting
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0  " avoid YCM Whether to load or not is prompted by the user each time the load is loaded
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_complete_in_comments = 1  " It can also be completed in comment input
+let g:ycm_complete_in_strings = 1  " It can also be completed in string input
+let g:ycm_collect_identifiers_from_comments_and_strings = 1   " Texts in comments and strings are also supplemented by revenue.
+let g:ycm_min_num_of_chars_for_completion = 1
 
-" Hide annoying text highlighting
-let g:ycm_show_diagnostics_ui = 0
+nnoremap <Leader>g :YcmCompleter GoTo<CR>
+nnoremap <LEADER>gg :YcmCompleter GoToImprecise<CR>
 
 " Display documentation on <leader>
 nmap <silent> <leader>q <plug>(YCMHover)
@@ -167,8 +181,10 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
+" Start NERDTree in minimal UI mode (No help lines)
+let g:NERDTreeMinimalUI = 1
 
-let NERDTreeShowHidden=1
+let g:NERDTreeShowHidden = 1
 let g:NERDTreeWinPos = "left"
 nmap <silent> <C-B> :NERDTreeToggle<CR>
 
