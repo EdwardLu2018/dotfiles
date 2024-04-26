@@ -130,7 +130,7 @@ let g:airline#extensions#tabline#formatter = 'short_path' " show directory/filen
 let g:airline#extensions#tabline#enabled = 1  " show buffer list
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#left_sep = ' '
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 " Make remove git gutter the minus sign
 let g:gitgutter_sign_removed = '-'
@@ -163,31 +163,23 @@ let b:ycm_hover = {
 \   }
 \ }
 
-" Create default mappings
-let g:NERDCreateDefaultMappings = 1
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_python = 1
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-" Enable NERDCommenterToggle to check all selected lines is commented or not
-let g:NERDToggleCheckAllLines = 1
-" Start NERDTree in minimal UI mode (No help lines)
-let g:NERDTreeMinimalUI = 1
+let g:NERDCreateDefaultMappings = 1  " Create default mappings
+let g:NERDSpaceDelims = 1  " Add spaces after comment delimiters by default
+let g:NERDCompactSexyComs = 1  " Use compact syntax for prettified multi-line comments
+let g:NERDDefaultAlign = 'left'  " Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDAltDelims_python = 1  " Set a language to use its alternate delimiters by default
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }  " Add your own custom formats or override the defaults
+let g:NERDCommentEmptyLines = 1  " Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDTrimTrailingWhitespace = 1  " Enable trimming of trailing whitespace when uncommenting
+let g:NERDToggleCheckAllLines = 1  " Enable NERDCommenterToggle to check all selected lines is commented or not
+let g:NERDTreeMinimalUI = 1  " Start NERDTree in minimal UI mode (No help lines)
+let g:NERDTreeShowHidden = 1  " Show hidden files
+let g:NERDTreeWinPos = "left"  " Set NERDTree window position
 
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeWinPos = "left"
+autocmd BufWritePost * NERDTreeFocus | execute 'normal r'
 nmap <silent> <C-B> :NERDTreeToggle<CR>
 
+" fzf commands
 nmap <silent> <C-f> :Rg<CR>
 nmap <silent> <leader>f :Files<CR>
 
