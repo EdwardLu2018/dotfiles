@@ -108,6 +108,7 @@ set ttyfast  "Speed up vim
 set nostartofline "Vertical movement preserves horizontal position
 set autoread  "Auto read file changes
 set updatetime=100
+set ttimeoutlen=0
 
 " Strip whitespace from end of lines when writing file
 autocmd BufWritePre * :%s/\s\+$//e
@@ -177,6 +178,7 @@ let g:NERDTreeShowHidden = 1  " Show hidden files
 let g:NERDTreeWinPos = "left"  " Set NERDTree window position
 
 autocmd BufWritePost * NERDTreeFocus | execute 'normal r'
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <silent> <C-B> :NERDTreeToggle<CR>
 
 " fzf commands
