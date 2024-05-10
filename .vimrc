@@ -60,10 +60,6 @@ nnoremap <Leader>a :bprev<CR>
 nnoremap <Leader>d :bnext<CR>
 nnoremap <Leader>x :bprev<CR>:bdelete #<CR>
 
-" Make j move cursor up and k move cursor down
-nnoremap j gk
-nnoremap k gj
-
 set fillchars=vert:│
 
 set nocompatible  "Kill vi-compatibility
