@@ -6,7 +6,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ycm-core/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'tmhedberg/matchit'
 Plug 'sheerun/vim-polyglot'
@@ -132,33 +132,8 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Make remove git gutter the minus sign
 let g:gitgutter_sign_removed = '-'
 
-let g:ycm_auto_hover = ''  " Do not display documentation on hover
-let g:ycm_show_diagnostics_ui = 0  " Hide annoying text highlighting
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0  " avoid YCM Whether to load or not is prompted by the user each time the load is loaded
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_complete_in_comments = 1  " It can also be completed in comment input
-let g:ycm_complete_in_strings = 1  " It can also be completed in string input
-let g:ycm_collect_identifiers_from_comments_and_strings = 1   " Texts in comments and strings are also supplemented by revenue.
-let g:ycm_min_num_of_chars_for_completion = 1
-
-nnoremap <Leader>g :YcmCompleter GoTo<CR>
-nnoremap <LEADER>gg :YcmCompleter GoToImprecise<CR>
-
-" Display documentation on <leader>
-nmap <silent> <leader>q <plug>(YCMHover)
 " Disable preview window
 set completeopt-=preview
-" Add borders to documentation popups
-let b:ycm_hover = {
-\   'command': 'GetDoc',
-\   'syntax': &filetype,
-\   'popup_params': {
-\       'border': [],
-\       'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
-\   }
-\ }
 
 let g:NERDCreateDefaultMappings = 1  " Create default mappings
 let g:NERDSpaceDelims = 1  " Add spaces after comment delimiters by default
@@ -176,6 +151,16 @@ let g:NERDTreeWinPos = "left"  " Set NERDTree window position
 autocmd BufWritePost * NERDTreeFocus | execute 'normal r'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <silent> <C-B> :NERDTreeToggle<CR>
+
+" Use up/down arrow keys for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <Up>
+      \ coc#pum#visible() ? coc#pum#prev(1) :
+      \ CheckBackspace() ? "\<Up>" :
+      \ coc#refresh()
+inoremap <silent><expr> <Down>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Down>" :
+      \ coc#refresh()
 
 " fzf commands
 nmap <silent> <C-f> :Rg<CR>

@@ -17,8 +17,16 @@ cp Predawn.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/Predawn.zsh-theme
 cp patches.zsh ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/patches.zsh
 
 # Copy dotfiles
-cp .vimrc ~/.vimrc
-cp .tmux.conf ~/.tmux.conf
+ln -s $(pwd)/.vimrc ~/.vimrc
+ln -s $(pwd)/.tmux.conf ~/.tmux.conf
+if [ ! -d "~/.config/nvim/" ]; then
+    mkdir -p ~/.config/nvim
+fi
+ln -s $(pwd)/init.vim ~/.config/nvim/init.vim
+
+# copy coc-settings.json
+ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
+ln -s $(pwd)/coc-settings.json ~/.config/nvim/coc-settings.json
 
 # Install vim-plug
 if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
