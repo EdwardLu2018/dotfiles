@@ -17,7 +17,7 @@ Plug 'mg979/vim-visual-multi'
 Plug 'github/copilot.vim'
 call plug#end()
 
-set rtp+=~/.vim/bundle/fzf
+set rtp+=~/.vim/plugged/fzf
 
 set t_Co=256 "256 color
 set bg=light
@@ -25,12 +25,14 @@ set bg=light
 colorscheme predawn
 
 " Deal with TMUX
-if &term =~ '^screen'
-	if has("mouse_sgr")
-		set ttymouse=sgr
-	else
-		set ttymouse=xterm2
-	end
+if !has('nvim')
+    if &term =~ '^screen'
+        if has("mouse_sgr")
+            set ttymouse=sgr
+        else
+            set ttymouse=xterm2
+        end
+    endif
 endif
 
 " Key remappings
@@ -152,19 +154,21 @@ autocmd BufWritePost * NERDTreeFocus | execute 'normal r'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <silent> <C-B> :NERDTreeToggle<CR>
 
-" Use up/down arrow keys for trigger completion with characters ahead and navigate
-inoremap <silent><expr> <Up>
-      \ coc#pum#visible() ? coc#pum#prev(1) :
-      \ CheckBackspace() ? "\<Up>" :
-      \ coc#refresh()
-inoremap <silent><expr> <Down>
+function! CheckBackspace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use shift-tab for trigger completion with characters ahead and navigate
+inoremap <silent><expr> <S-Tab>
       \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Down>" :
+      \ CheckBackspace() ? "\<S-Tab>" :
       \ coc#refresh()
 
 " fzf commands
 nmap <silent> <C-f> :Rg<CR>
 nmap <silent> <leader>f :Files<CR>
+nmap <silent> <leader>b :Buffers<CR>
 
 " Disable Copilot for large files
 autocmd BufReadPre *
