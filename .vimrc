@@ -150,7 +150,6 @@ let g:NERDTreeMinimalUI = 1  " Start NERDTree in minimal UI mode (No help lines)
 let g:NERDTreeShowHidden = 1  " Show hidden files
 let g:NERDTreeWinPos = "left"  " Set NERDTree window position
 
-autocmd BufWritePost * NERDTreeFocus | execute 'normal r'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap <silent> <C-B> :NERDTreeToggle<CR>
 
