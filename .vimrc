@@ -42,6 +42,14 @@ command Wq wq
 command WQ wq
 command Q q
 
+" Use leader-s for saving
+noremap <Leader>s :update<CR>
+vnoremap <Leader>s <C-C>:update<CR>
+inoremap <Leader>s <C-O>:update<CR>
+
+" Use CTRL-q with confirmation prompt
+noremap <C-Q> :confirm qa<CR>
+
 " Use line cursor when in insert mode and block cursor everywhere else
 let &t_SI="\e[6 q"
 let &t_EI="\e[2 q"
@@ -56,8 +64,8 @@ nmap <Leader>6 <Plug>AirlineSelectTab6
 nmap <Leader>7 <Plug>AirlineSelectTab7
 nmap <Leader>8 <Plug>AirlineSelectTab8
 nmap <Leader>9 <Plug>AirlineSelectTab9
-nnoremap <Leader>w :bfirst<CR>
-nnoremap <Leader>s :blast<CR>
+" nnoremap <Leader>w :bfirst<CR>
+" nnoremap <Leader>s :blast<CR>
 nnoremap <Leader>a :bprev<CR>
 nnoremap <Leader>d :bnext<CR>
 nnoremap <Leader>x :bprev<CR>:bdelete #<CR>
@@ -103,6 +111,7 @@ set lazyredraw  "Don't redraw while running macros (faster)
 set backspace=indent,eol,start  "Better backspacing
 set linebreak  "Intelligently wrap long files
 set ttyfast  "Speed up vim
+set signcolumn=yes "Always show sign column
 set nostartofline "Vertical movement preserves horizontal position
 set autoread  "Auto read file changes
 set updatetime=100
@@ -124,14 +133,14 @@ hi GitGutterDelete guifg=#ff2222 ctermfg=1
 
 let g:airline_theme="luna"
 let g:airline_powerline_fonts = 0
-" let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number
 let g:airline#extensions#tabline#formatter = 'short_path' " show directory/filename
 let g:airline#extensions#tabline#enabled = 1  " show buffer list
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
-" Make remove git gutter the minus sign
+" Make '-' git gutter the minus sign
 let g:gitgutter_sign_removed = '-'
 
 " Disable preview window
