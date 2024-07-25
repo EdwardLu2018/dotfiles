@@ -9,6 +9,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'tmhedberg/matchit'
+Plug 'luochen1990/rainbow'
 Plug 'sheerun/vim-polyglot'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -125,8 +126,9 @@ autocmd BufWritePre * :%s/\s\+$//e
 autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufReadPost *.vs,*.fs,*.gs,*.vsh,*.fsh,*.gsh,*.vshader,*.fshader,*.gshader,*.vert,*.frag,*.geom,*.tesc,*.tese,*.comp,*.glsl set filetype=glsl
 
+" Set colors
 hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
-hi SpellBad ctermbg=red guibg=red ctermfg=black guifg=black
+hi SpellBad ctermbg=1 guibg=1 ctermfg=black guifg=black
 hi clear SignColumn
 hi GitGutterAdd guifg=#009900 ctermfg=2
 hi GitGutterChange guifg=#bbbb00 ctermfg=3
@@ -140,6 +142,30 @@ let g:airline#extensions#tabline#enabled = 1  " show buffer list
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+
+" Enable rainbow parentheses
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\	'guifgs': [11, 13, 12],
+\	'ctermfgs': [11, 13, 12],
+\	'guis': [''],
+\	'cterms': [''],
+\	'operators': '_,_',
+\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\	'separately': {
+\		'*': {},
+\		'markdown': {
+\			'parentheses_options': 'containedin=markdownCode contained',
+\		},
+\		'vim': {
+\			'parentheses_options': 'containedin=vimFuncBody',
+\		},
+\		'stylus': {
+\			'parentheses': ['start=/{/ end=/}/ fold contains=@colorableGroup'],
+\		},
+\		'nerdtree': 0,
+\	}
+\}
 
 " Better c++ highlighting
 let g:cpp_class_scope_highlight = 1
