@@ -16,7 +16,7 @@ echo $ZSH_CUSTOM
 cp Predawn.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/Predawn.zsh-theme
 cp patches.zsh ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/patches.zsh
 
-# Copy dotfiles
+# Link dotfiles
 ln -s $(pwd)/.vimrc ~/.vimrc
 ln -s $(pwd)/.tmux.conf ~/.tmux.conf
 if [ ! -d "~/.config/nvim/" ]; then
@@ -24,7 +24,7 @@ if [ ! -d "~/.config/nvim/" ]; then
 fi
 ln -s $(pwd)/init.vim ~/.config/nvim/init.vim
 
-# copy coc-settings.json
+# Link coc-settings.json
 ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
 ln -s $(pwd)/coc-settings.json ~/.config/nvim/coc-settings.json
 
@@ -33,6 +33,12 @@ if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
     printf "Installing vim-plug...\n"
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+
+# Link color scheme
+if [ ! -d "~/.vim/colors/" ]; then
+    mkdir -p ~/.vim/colors
+fi
+ln -s $(pwd)/predawn.vim ~/.vim/colors/predawn.vim
 
 # Install TMUX Plugin Manager
 if [ ! -e "$HOME/.tmux/plugins/tpm" ]; then
