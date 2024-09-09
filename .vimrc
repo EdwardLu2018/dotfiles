@@ -127,6 +127,7 @@ autocmd BufNewFile,BufRead *.md set filetype=markdown
 autocmd BufNewFile,BufReadPost *.vs,*.fs,*.gs,*.vsh,*.fsh,*.gsh,*.vshader,*.fshader,*.gshader,*.vert,*.frag,*.geom,*.tesc,*.tese,*.comp,*.glsl set filetype=glsl
 
 " Set colors
+" set termguicolors
 hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
 hi SpellBad ctermbg=1 guibg=1 ctermfg=black guifg=black
 hi clear SignColumn
@@ -134,7 +135,7 @@ hi GitGutterAdd guifg=#009900 ctermfg=2
 hi GitGutterChange guifg=#bbbb00 ctermfg=3
 hi GitGutterDelete guifg=#ff2222 ctermfg=1
 
-let g:airline_theme="luna"
+let g:airline_theme="bubblegum"
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number
 let g:airline#extensions#tabline#formatter = 'short_path' " show directory/filename
@@ -146,8 +147,8 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 " Enable rainbow parentheses
 let g:rainbow_active = 1
 let g:rainbow_conf = {
-\	'guifgs': [11, 13, 12],
-\	'ctermfgs': [11, 13, 12],
+\	'guifgs': ['goldenrod', 'darkorchid', 'dodgerblue'],
+\	'ctermfgs': ['darkyellow', 'magenta', 'lightblue'],
 \	'guis': [''],
 \	'cterms': [''],
 \	'operators': '_,_',
