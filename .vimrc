@@ -1,4 +1,5 @@
 call plug#begin()
+Plug 'morhetz/gruvbox'
 Plug 'juanedi/predawn.vim'
 Plug 'mhinz/vim-startify'
 Plug 'Raimondi/delimitMate'
@@ -22,9 +23,9 @@ call plug#end()
 set rtp+=~/.vim/plugged/fzf
 
 set t_Co=256 "256 color
-set bg=light
+set bg=dark
 
-colorscheme predawn
+colorscheme gruvbox
 
 " Deal with TMUX
 if !has('nvim')
@@ -135,7 +136,7 @@ hi GitGutterAdd guifg=#009900 ctermfg=2
 hi GitGutterChange guifg=#bbbb00 ctermfg=3
 hi GitGutterDelete guifg=#ff2222 ctermfg=1
 
-let g:airline_theme="bubblegum"
+let g:airline_theme="gruvbox"
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number
 let g:airline#extensions#tabline#formatter = 'short_path' " show directory/filename
