@@ -130,7 +130,7 @@ autocmd BufNewFile,BufReadPost *.vs,*.fs,*.gs,*.vsh,*.fsh,*.gsh,*.vshader,*.fsha
 " Set colors
 " set termguicolors
 hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
-hi SpellBad ctermbg=1 guibg=1 ctermfg=black guifg=black
+hi SpellBad ctermbg=1 guibg=#FF0000 ctermfg=black guifg=black
 hi clear SignColumn
 hi GitGutterAdd guifg=#009900 ctermfg=2
 hi GitGutterChange guifg=#bbbb00 ctermfg=3
