@@ -40,6 +40,12 @@ if [ ! -d "~/.vim/colors/" ]; then
 fi
 ln -s $(pwd)/predawn.vim ~/.vim/colors/predawn.vim
 
+# Link kitty config
+if [ ! -d "~/.config/kitty/" ]; then
+    mkdir -p ~/.config/kitty
+fi
+ln -s $(pwd)/kitty/* ~/.config/kitty/
+
 # Install TMUX Plugin Manager
 if [ ! -e "$HOME/.tmux/plugins/tpm" ]; then
     printf "Installing TMUX Plugin Manager...\n"
@@ -53,4 +59,3 @@ tmux new -d -s __noop >/dev/null 2>&1 || true
 tmux set-environment -g TMUX_PLUGIN_MANAGER_PATH "~/.tmux/plugins"
 "$HOME"/.tmux/plugins/tpm/bin/install_plugins || true
 tmux kill-session -t __noop >/dev/null 2>&1 || true
-
