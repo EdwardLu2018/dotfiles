@@ -5,6 +5,7 @@ Plug 'mhinz/vim-startify'
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -74,6 +75,7 @@ set number
 set ic
 set confirm
 set hidden
+set cursorline "Highlight current line
 set whichwrap+=<,>,h,l,[,]
 set showmatch  "Highlight matching braces
 set history=1000  "Store more history
@@ -99,6 +101,9 @@ set ttimeoutlen=0
 set splitbelow
 set splitright
 
+" Map leader key to semicolon
+let mapleader = ';'
+
 " Clear search highlights.
 map <Leader><Space> :let @/=''<CR>
 
@@ -113,7 +118,6 @@ xnoremap p pgvy
 vmap y ygv<Esc>
 
 " Key remappings
-let mapleader = ';'
 command W w
 command Wq wq
 command WQ wq
@@ -133,6 +137,9 @@ noremap <C-Q> :confirm qa<CR>
 " Use leader-q for quitting with confirmation
 noremap <Leader>q :confirm qa<CR>
 
+" Use leader-e for resizing windows equally
+nnoremap <nowait> <Leader>e <C-w>=
+
 " Use leader-t to open a new tab
 map <Leader>t :tabnew<CR>
 
@@ -143,7 +150,6 @@ nnoremap <C-W>z :MaximizerToggle<CR>
 
 " Edit Vim config file in a new tab.
 map <Leader>ev :tabnew ~/.vimrc<CR>
-
 " Source Vim config file
 map <Leader>sv :source ~/.vimrc<CR>
 
@@ -212,7 +218,7 @@ xmap <Leader>R
 
 " Dim inactive windows
 let g:vimade = {}
-let g:vimade.fadelevel = 0.8
+let g:vimade.fadelevel = 0.85
 
 " Strip trailing whitespace
 let g:strip_whitespace_confirm=0
@@ -268,12 +274,11 @@ let g:NERDTreeShowHidden = 1  " Show hidden files
 let g:NERDTreeAutoDeleteBuffer=1  " Automatically delete the buffer when closing NERDTree
 let g:NERDTreeWinPos = "left"  " Set NERDTree window position
 
-" Open nerd tree at the current file or close nerd tree if pressed again.
-nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
-
 " Close NERDTree if it's the only window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-nmap <silent> <C-B> :NERDTreeToggle<CR>
+
+" Use CTRL-B to toggle NERDTree
+nmap <silent> <C-B> :NERDTreeTabsToggle<CR> :wincmd =<CR> :wincmd p<CR>
 
 function! CheckBackspace() abort
     let col = col('.') - 1
@@ -281,7 +286,7 @@ function! CheckBackspace() abort
 endfunction
 
 " Use shift-tab for trigger completion with characters ahead and navigate
-inoremap <silent><expr> <S-Tab>
+inoremap <silent> <expr> <S-Tab>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<S-Tab>" :
       \ coc#refresh()
