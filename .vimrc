@@ -101,21 +101,24 @@ set ttimeoutlen=0
 set splitbelow
 set splitright
 
+" Use line cursor when in insert mode and block cursor everywhere else
+let &t_SI="\e[6 q"
+let &t_EI="\e[2 q"
+
 " Map leader key to semicolon
 let mapleader = ';'
 
-" Clear search highlights.
+" Clear search highlights
 map <Leader><Space> :let @/=''<CR>
 
-" Prevent x from overriding what's in the clipboard.
-noremap x "_x
-noremap X "_x
-
-" Prevent selecting and pasting from overwriting what you originally copied.
+" Prevent selecting and pasting from overwriting what you originally copied
 xnoremap p pgvy
 
-" Keep cursor at the bottom of the visual selection after you yank it.
+" Keep cursor at the bottom of the visual selection after you yank it
 vmap y ygv<Esc>
+
+" Yank until the end of the line
+nnoremap Y y$
 
 " Key remappings
 command W w
@@ -123,22 +126,16 @@ command Wq wq
 command WQ wq
 command Q q
 
-" Use leader-s for saving
-noremap <Leader>s :update<CR>
-vnoremap <Leader>s <C-C>:update<CR>
-inoremap <Leader>s <C-O>:update<CR>
 " Use CTRL-s for saving
-noremap <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <C-O>:update<CR>
+nnoremap <C-S> :update<CR>
 
-" Use CTRL-q for quitting with confirmation
-noremap <C-Q> :confirm qa<CR>
+" Use leader-w for writing
+nnoremap <Leader>w :write<CR>
+
 " Use leader-q for quitting with confirmation
-noremap <Leader>q :confirm qa<CR>
-
-" Use leader-e for resizing windows equally
-nnoremap <nowait> <Leader>e <C-w>=
+nnoremap <silent> <Leader>q :confirm q<CR>
+" Use leader-Q for quitting all with confirmation
+nnoremap <silent> <Leader>Q :confirm qa<CR>
 
 " Use leader-t to open a new tab
 map <Leader>t :tabnew<CR>
@@ -148,14 +145,37 @@ nmap <Leader>z :MaximizerToggle<CR>
 " Use CTRL-wz to toggle maximizer
 nnoremap <C-W>z :MaximizerToggle<CR>
 
+" Use leader-ws for splitting windows horizontally
+nnoremap <silent> <Leader>ws :split<CR>
+" Use leader-wv for splitting windows vertically
+nnoremap <silent> <Leader>wv :vsplit<CR>
+" Use leader-we for resizing windows equally
+nnoremap <Leader>we <C-w>=
+
+" Keep cursor centered when jumping/searching
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap G Gzz
+nnoremap gg ggzz
+
+" Use system clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>p "+p
+vnoremap <leader>p "+p
+
+" Delete without yanking
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+" Stay in visual mode after indenting
+vnoremap < <gv
+vnoremap > >gv
+
 " Edit Vim config file in a new tab.
 map <Leader>ev :tabnew ~/.vimrc<CR>
 " Source Vim config file
 map <Leader>sv :source ~/.vimrc<CR>
-
-" Use line cursor when in insert mode and block cursor everywhere else
-let &t_SI="\e[6 q"
-let &t_EI="\e[2 q"
 
 " Swapping between buffers
 nmap <Leader>1 <Plug>AirlineSelectTab1
@@ -169,9 +189,20 @@ nmap <Leader>8 <Plug>AirlineSelectTab8
 nmap <Leader>9 <Plug>AirlineSelectTab9
 nnoremap <Leader>a :bprev<CR>
 nnoremap <Leader>d :bnext<CR>
-nnoremap <Leader>x :bprev<CR>:bdelete #<CR>
-" nnoremap <Leader>w :bfirst<CR>
-" nnoremap <Leader>s :blast<CR>
+
+function! SmartClose()
+  if winnr('$') > 1
+    quit
+  elseif tabpagenr('$') > 1
+    tabclose
+  elseif len(getbufinfo({'buflisted': 1})) > 1
+    bprev
+    bdelete #
+  else
+    confirm quitall
+  endif
+endfunction
+nnoremap <Leader>x :call SmartClose()<CR>
 
 " Set filetypes
 autocmd BufNewFile,BufRead *.md set filetype=markdown
@@ -217,8 +248,13 @@ xmap <Leader>R
     \<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " Dim inactive windows
-let g:vimade = {}
-let g:vimade.fadelevel = 0.85
+let g:vimade = {
+\   'fadelevel': 0.75,
+\   'ncmode': 'windows',
+\   'tint': {
+\     'bg': { 'rgb': [0,0,0], 'intensity': 0.1 },
+\   }
+\}
 
 " Strip trailing whitespace
 let g:strip_whitespace_confirm=0
@@ -303,7 +339,7 @@ autocmd BufReadPre *
     \ | let b:copilot_enabled = v:false
     \ | endif
 
-" Set colors
+" Custom colors
 hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
 hi SpellBad ctermbg=1 guibg=#FF0000 ctermfg=black guifg=black
 hi clear SignColumn
