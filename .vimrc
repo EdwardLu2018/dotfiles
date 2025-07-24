@@ -40,6 +40,14 @@ set bg=dark
 
 colorscheme gruvbox
 
+" Custom colors
+hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
+hi SpellBad ctermbg=1 guibg=#FF0000 ctermfg=black guifg=black
+hi clear SignColumn
+hi GitGutterAdd guifg=#009900 ctermfg=2
+hi GitGutterChange guifg=#bbbb00 ctermfg=3
+hi GitGutterDelete guifg=#ff2222 ctermfg=1
+
 " Deal with TMUX
 if !has('nvim')
     if &term =~ '^screen'
@@ -126,8 +134,8 @@ command Wq wq
 command WQ wq
 command Q q
 
-" Use CTRL-s for saving
-nnoremap <C-S> :update<CR>
+" Use leader-s for saving
+nnoremap <Leader>s :update<CR>
 
 " Use leader-w for writing
 nnoremap <Leader>w :write<CR>
@@ -140,10 +148,12 @@ nnoremap <silent> <Leader>Q :confirm qa<CR>
 " Use leader-t to open a new tab
 map <Leader>t :tabnew<CR>
 
-" Use leader-z to toggle maximizer
-nmap <Leader>z :MaximizerToggle<CR>
 " Use CTRL-wz to toggle maximizer
 nnoremap <C-W>z :MaximizerToggle<CR>
+" Use leader-wz to toggle maximizer
+nnoremap <silent> <Leader>wz :MaximizerToggle<CR>
+" Use leader-z to toggle maximizer
+nmap <Leader>z :MaximizerToggle<CR>
 
 " Use leader-ws for splitting windows horizontally
 nnoremap <silent> <Leader>ws :split<CR>
@@ -168,6 +178,10 @@ vnoremap <leader>p "+p
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 
+" Toggle line numbers
+nnoremap <Leader>n :set nu!<CR>
+nnoremap <Leader>r :set relativenumber!<CR>
+
 " Stay in visual mode after indenting
 vnoremap < <gv
 vnoremap > >gv
@@ -187,8 +201,23 @@ nmap <Leader>6 <Plug>AirlineSelectTab6
 nmap <Leader>7 <Plug>AirlineSelectTab7
 nmap <Leader>8 <Plug>AirlineSelectTab8
 nmap <Leader>9 <Plug>AirlineSelectTab9
-nnoremap <Leader>a :bprev<CR>
-nnoremap <Leader>d :bnext<CR>
+nnoremap <Leader>a :tabprev<CR>
+nnoremap <Leader>d :tabnext<CR>
+
+" Use leader-c to close the current buffer
+nnoremap <Leader>c :bd<CR>
+
+" Use CTRL-arrows to navigate between windows
+nnoremap <C-Left>  :wincmd h<CR>
+nnoremap <C-Right> :wincmd l<CR>
+nnoremap <C-Up>    :wincmd k<CR>
+nnoremap <C-Down>  :wincmd j<CR>
+
+" Use Shift-arrows to resize windows
+nnoremap <S-Up>    :resize +2<CR>
+nnoremap <S-Down>  :resize -2<CR>
+nnoremap <S-Left>  :vertical resize -2<CR>
+nnoremap <S-Right> :vertical resize +2<CR>
 
 function! SmartClose()
   if winnr('$') > 1
@@ -249,10 +278,10 @@ xmap <Leader>R
 
 " Dim inactive windows
 let g:vimade = {
-\   'fadelevel': 0.75,
+\   'fadelevel': 0.8,
 \   'ncmode': 'windows',
 \   'tint': {
-\     'bg': { 'rgb': [0,0,0], 'intensity': 0.1 },
+\     'bg': { 'rgb': [0,0,0], 'intensity': 0.08 },
 \   }
 \}
 
@@ -307,7 +336,7 @@ let g:NERDTrimTrailingWhitespace = 1  " Enable trimming of trailing whitespace w
 let g:NERDToggleCheckAllLines = 1  " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDTreeMinimalUI = 1  " Start NERDTree in minimal UI mode (No help lines)
 let g:NERDTreeShowHidden = 1  " Show hidden files
-let g:NERDTreeAutoDeleteBuffer=1  " Automatically delete the buffer when closing NERDTree
+let g:NERDTreeAutoDeleteBuffer = 1  " Automatically delete the buffer when closing NERDTree
 let g:NERDTreeWinPos = "left"  " Set NERDTree window position
 
 " Close NERDTree if it's the only window open
@@ -320,16 +349,23 @@ function! CheckBackspace() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Use shift-tab for trigger completion with characters ahead and navigate
-inoremap <silent> <expr> <S-Tab>
+" Use Shift-down to navigate forward in completion
+inoremap <silent> <expr> <S-Down>
       \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<S-Tab>" :
+      \ CheckBackspace() ? "\<S-Down>" :
       \ coc#refresh()
+" Use Shift-up to navigate backward in completion
+inoremap <silent> <expr> <S-Up>
+      \ coc#pum#visible() ? coc#pum#prev(1) :
+      \ CheckBackspace() ? "\<S-Up>" :
+      \ coc#refresh()
+" Use Enter to select completion
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " FZF commands
 nmap <silent> <C-f> :Rg<CR>
-nmap <silent> <leader>f :Files<CR>
+nmap <silent> <leader>g :Files<CR>
+nmap <silent> <leader>f :GFiles --cached --others --exclude-standard<CR>
 nmap <silent> <leader>b :Buffers<CR>
 
 " Disable Copilot for large files
@@ -338,11 +374,3 @@ autocmd BufReadPre *
     \ | if f > 100000 || f == -2
     \ | let b:copilot_enabled = v:false
     \ | endif
-
-" Custom colors
-hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
-hi SpellBad ctermbg=1 guibg=#FF0000 ctermfg=black guifg=black
-hi clear SignColumn
-hi GitGutterAdd guifg=#009900 ctermfg=2
-hi GitGutterChange guifg=#bbbb00 ctermfg=3
-hi GitGutterDelete guifg=#ff2222 ctermfg=1
