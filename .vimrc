@@ -23,7 +23,6 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-grepper'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'szw/vim-maximizer'
 Plug 'wesQ3/vim-windowswap'
 Plug 'TaDaa/vimade'
 Plug 'lewis6991/gitsigns.nvim'
@@ -51,8 +50,6 @@ if !has('nvim')
     endif
 endif
 
-set fillchars=vert:│
-
 set nocompatible  "Kill vi-compatibility
 set encoding=utf-8 "UTF-8 character encoding
 
@@ -70,10 +67,10 @@ set ignorecase  "Search ignoring case
 set smartcase  "Search using smartcase
 set incsearch  "Start searching immediately
 
-set mouse=a
-set number
-set confirm
-set hidden
+set mouse=a  "Enable mouse
+set number  "Show line numbers
+set confirm  "Confirm to save changes before exiting modified buffer
+set hidden  "Enable background buffers
 set cursorline "Highlight current line
 set whichwrap+=<,>,h,l,[,]
 set showmatch  "Highlight matching braces
@@ -81,7 +78,7 @@ set history=1000  "Store more history
 set nobackup  "No backup files
 set noequalalways  "Don't resize windows automatically
 set ruler  "Show bottom ruler
-set colorcolumn=120
+set colorcolumn=120  "Show column at 120 chars
 set formatoptions=croq  "Enable comment line auto formatting
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
@@ -95,10 +92,11 @@ set ttyfast  "Speed up vim
 set signcolumn=yes "Always show sign column
 set nostartofline "Vertical movement preserves horizontal position
 set autoread  "Auto read file changes
+set splitbelow  "Horizontal splits go below
+set splitright  "Vertical splits go right
+set fillchars+=stl:─,stlnc:─  "Add thin line for status bar
 set updatetime=100
 set ttimeoutlen=0
-set splitbelow
-set splitright
 
 " Use line cursor when in insert mode and block cursor everywhere else
 let &t_SI="\e[6 q"
@@ -132,19 +130,32 @@ nnoremap <Leader>s :update<CR>
 nnoremap <Leader>w :write<CR>
 
 " Use leader-q for quitting with confirmation
-nnoremap <silent> <Leader>q :confirm q<CR>
-" Use leader-Q for quitting all with confirmation
-nnoremap <silent> <Leader>Q :confirm qa<CR>
+nnoremap <silent> <Leader>q     :confirm q<CR>
+" Use leader-CTRL-q for quitting all with confirmation
+nnoremap <silent> <Leader><C-Q> :confirm qa<CR>
 
 " Use leader-t to open a new tab
 map <Leader>t :tabnew<CR>
 
-" Use CTRL-wz to toggle maximizer
-nnoremap <C-W>z :MaximizerToggle<CR>
-" Use leader-wz to toggle maximizer
-nnoremap <silent> <Leader>wz :MaximizerToggle<CR>
-" Use leader-z to toggle maximizer
-nmap <Leader>z :MaximizerToggle<CR>
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+" Use Ctrl-w z to toggle zoom
+nnoremap <silent> <C-W>z     :ZoomToggle<CR>
+" Use leader-wz to toggle zoom
+nnoremap <silent> <Leader>wz :ZoomToggle<CR>
+" Use leader-z to toggle zoom
+nmap <Leader>z               :ZoomToggle<CR>
 
 " Use leader-ws for splitting windows horizontally
 nnoremap <silent> <Leader>ws :split<CR>
@@ -238,12 +249,13 @@ autocmd BufNewFile,BufReadPost *.vs,*.fs,*.gs,*.vsh,*.fsh,*.gsh,*.vshader,*.fsha
 
 let g:airline_theme="gruvbox"
 let g:airline_powerline_fonts = 0
-let g:airline#extensions#tabline#tab_nr_type = 1 " show tab number
-let g:airline#extensions#tabline#formatter = 'short_path' " show directory/filename
-let g:airline#extensions#tabline#enabled = 1  " show buffer list
+let g:airline#extensions#tabline#tab_nr_type = 1 " Show tab number
+let g:airline#extensions#tabline#formatter = 'short_path' " Show directory/filename
+let g:airline#extensions#tabline#enabled = 1  " Show buffer list
+let g:airline#extensions#tabline#buffer_idx_mode = 1  " Show buffer index
+let g:airline_section_c = '%{expand("%:p:h:t")}/%t'  " Show relative path in status line
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
