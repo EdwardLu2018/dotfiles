@@ -2,21 +2,18 @@ call plug#begin()
 Plug 'morhetz/gruvbox'
 Plug 'juanedi/predawn.vim'
 Plug 'mhinz/vim-startify'
-Plug 'Raimondi/delimitMate'
-Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
+Plug 'preservim/nerdcommenter'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
-Plug 'tmhedberg/matchit'
 Plug 'luochen1990/rainbow'
 Plug 'sheerun/vim-polyglot'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'mg979/vim-visual-multi'
 Plug 'github/copilot.vim'
@@ -27,7 +24,10 @@ Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-grepper'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'szw/vim-maximizer'
+Plug 'wesQ3/vim-windowswap'
 Plug 'TaDaa/vimade'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'dstein64/nvim-scrollview'
 call plug#end()
 
 set rtp+=~/.vim/plugged/fzf
@@ -39,14 +39,6 @@ set t_Co=256 "256 color
 set bg=dark
 
 colorscheme gruvbox
-
-" Custom colors
-hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
-hi SpellBad ctermbg=1 guibg=#FF0000 ctermfg=black guifg=black
-hi clear SignColumn
-hi GitGutterAdd guifg=#009900 ctermfg=2
-hi GitGutterChange guifg=#bbbb00 ctermfg=3
-hi GitGutterDelete guifg=#ff2222 ctermfg=1
 
 " Deal with TMUX
 if !has('nvim')
@@ -80,7 +72,6 @@ set incsearch  "Start searching immediately
 
 set mouse=a
 set number
-set ic
 set confirm
 set hidden
 set cursorline "Highlight current line
@@ -88,13 +79,13 @@ set whichwrap+=<,>,h,l,[,]
 set showmatch  "Highlight matching braces
 set history=1000  "Store more history
 set nobackup  "No backup files
-set equalalways  "Split windows equal size
+set noequalalways  "Don't resize windows automatically
 set ruler  "Show bottom ruler
 set colorcolumn=120
 set formatoptions=croq  "Enable comment line auto formatting
 set scrolloff=5  "Never scroll off
 set wildmode=longest,list  "Better unix-like tab completion
-set clipboard=unnamed  "Copy and paste from system clipboard
+set clipboard=unnamedplus  "Copy and paste from system clipboard
 set nowrap  "No line wrapping
 set sidescroll=1  "Scroll horizontally one column at a time
 set lazyredraw  "Don't redraw while running macros (faster)
@@ -161,6 +152,14 @@ nnoremap <silent> <Leader>ws :split<CR>
 nnoremap <silent> <Leader>wv :vsplit<CR>
 " Use leader-we for resizing windows equally
 nnoremap <Leader>we <C-w>=
+
+let g:windowswap_map_keys = 0
+" Use leader-yw to mark a window for swapping
+nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
+" Use leader-pw to swap the current window with the marked window
+nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
+" Use leader-ww to easily swap two windows by selecting them
+nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
 " Keep cursor centered when jumping/searching
 nnoremap n nzzzv
@@ -278,10 +277,10 @@ xmap <Leader>R
 
 " Dim inactive windows
 let g:vimade = {
-\   'fadelevel': 0.8,
+\   'fadelevel': 0.85,
 \   'ncmode': 'windows',
 \   'tint': {
-\     'bg': { 'rgb': [0,0,0], 'intensity': 0.08 },
+\     'bg': { 'rgb': [0,0,0], 'intensity': 0.05 },
 \   }
 \}
 
@@ -319,9 +318,6 @@ let g:cpp_member_variable_highlight = 1
 let g:cpp_class_decl_highlight = 1
 let g:cpp_posix_standard = 1
 
-" Make '-' git gutter the minus sign
-let g:gitgutter_sign_removed = '-'
-
 " Disable preview window
 set completeopt-=preview
 
@@ -358,14 +354,34 @@ inoremap <silent> <expr> <S-Down>
 inoremap <silent> <expr> <S-Up>
       \ coc#pum#visible() ? coc#pum#prev(1) :
       \ CheckBackspace() ? "\<S-Up>" :
-      \ coc#refresh()
+      \ coc#refresh(>)
 " Use Enter to select completion
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
+" Scrollview
+let g:scrollview_excluded_filetypes = ['nerdtree']
+let g:scrollview_visibility = 'always'
+let g:scrollview_signs_on_startup = [
+\   'changelist',
+\   'conflicts',
+\   'cursor',
+\   'diagnostics',
+\   'folds',
+\   'indent',
+\   'marks',
+\   'search',
+\   'spell',
+\   'trail'
+\]
+let g:scrollview_cursor_symbol = '•'
+let g:scrollview_search_symbol = '·'
+
 " FZF commands
 nmap <silent> <C-f> :Rg<CR>
-nmap <silent> <leader>g :Files<CR>
-nmap <silent> <leader>f :GFiles --cached --others --exclude-standard<CR>
+nmap <silent> <leader>f :Files<CR>
+nmap <silent> <leader>g :GFiles --cached --others --exclude-standard<CR>
+nmap <silent> <C-p> :Commands<CR>
+nmap <silent> <leader>h :History<CR>
 nmap <silent> <leader>b :Buffers<CR>
 
 " Disable Copilot for large files
@@ -374,3 +390,11 @@ autocmd BufReadPre *
     \ | if f > 100000 || f == -2
     \ | let b:copilot_enabled = v:false
     \ | endif
+
+" Custom colors
+hi LineNr term=bold cterm=NONE ctermfg=Gray ctermbg=NONE gui=NONE guifg=Gray guibg=NONE
+hi SpellBad ctermbg=1 guibg=#FF0000 ctermfg=black guifg=black
+hi clear SignColumn
+hi ScrollView guibg=#3c3836
+hi ScrollViewCursor guibg=#fabd2f
+hi ScrollViewSearch guibg=#fe8019
