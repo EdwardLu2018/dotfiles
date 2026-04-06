@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install oh-my-zsh
-if [ -d "~/.oh-my-zsh/" ]
+if [ ! -d ~/.oh-my-zsh/ ]
 then
     printf "Installing oh-my-zsh...\n"
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -11,22 +11,27 @@ then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
+# Add zsh-autosuggestions and zsh-syntax-highlighting to plugins in .zshrc if missing
+for plugin in zsh-autosuggestions zsh-syntax-highlighting; do
+    if ! grep -q "$plugin" ~/.zshrc 2>/dev/null; then
+        sed -i "s/^plugins=(\(.*\))/plugins=(\1 $plugin)/" ~/.zshrc
+    fi
+done
+
 # Copy OMZ patches
-echo $ZSH_CUSTOM
 cp Predawn.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/Predawn.zsh-theme
 cp patches.zsh ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/patches.zsh
 
 # Link dotfiles
-ln -s $(pwd)/.vimrc ~/.vimrc
-ln -s $(pwd)/.tmux.conf ~/.tmux.conf
-if [ ! -d "~/.config/nvim/" ]; then
-    mkdir -p ~/.config/nvim
-fi
-ln -s $(pwd)/init.vim ~/.config/nvim/init.vim
+ln -sf $(pwd)/.vimrc ~/.vimrc
+ln -sf $(pwd)/tmux.conf ~/.tmux.conf
+mkdir -p ~/.config/nvim
+ln -sf $(pwd)/init.vim ~/.config/nvim/init.vim
 
 # Link coc-settings.json
-ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
-ln -s $(pwd)/coc-settings.json ~/.config/nvim/coc-settings.json
+mkdir -p ~/.vim
+ln -sf $(pwd)/coc-settings.json ~/.vim/coc-settings.json
+ln -sf $(pwd)/coc-settings.json ~/.config/nvim/coc-settings.json
 
 # Install vim-plug
 if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
@@ -35,16 +40,16 @@ if [ ! -e "$HOME/.vim/autoload/plug.vim" ]; then
 fi
 
 # Link color scheme
-if [ ! -d "~/.vim/colors/" ]; then
-    mkdir -p ~/.vim/colors
-fi
-ln -s $(pwd)/predawn.vim ~/.vim/colors/predawn.vim
+mkdir -p ~/.vim/colors
+ln -sf $(pwd)/predawn.vim ~/.vim/colors/predawn.vim
+
+# Link alacritty config
+mkdir -p ~/.config/alacritty
+ln -sf $(pwd)/alacritty/* ~/.config/alacritty/
 
 # Link kitty config
-if [ ! -d "~/.config/kitty/" ]; then
-    mkdir -p ~/.config/kitty
-fi
-ln -s $(pwd)/kitty/* ~/.config/kitty/
+mkdir -p ~/.config/kitty
+ln -sf $(pwd)/kitty/* ~/.config/kitty/
 
 # Install TMUX Plugin Manager
 if [ ! -e "$HOME/.tmux/plugins/tpm" ]; then

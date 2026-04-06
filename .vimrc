@@ -34,7 +34,6 @@ set rtp+=~/.vim/plugged/fzf
 " Set FZF options
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --no-ignore --glob "!.git/*"'
 
-set t_Co=256 "256 color
 set bg=dark
 
 colorscheme gruvbox
@@ -185,7 +184,6 @@ nnoremap <leader>p "+p
 vnoremap <leader>p "+p
 
 " Delete without yanking
-nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 
 " Toggle line numbers
@@ -366,7 +364,7 @@ inoremap <silent> <expr> <S-Down>
 inoremap <silent> <expr> <S-Up>
       \ coc#pum#visible() ? coc#pum#prev(1) :
       \ CheckBackspace() ? "\<S-Up>" :
-      \ coc#refresh(>)
+      \ coc#refresh()
 " Use Enter to select completion
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
